@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Family - B1 Assessment Test</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        accent: {
+                            gold: '#f59e0b',
+                            teal: '#14b8a6',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles for animations and specific components */
+        .page-transition {
+            transition: all 0.3s ease-in-out;
+        }
+        .hidden-page {
+            display: none !important;
+        }
+        /* Custom scrollbar for better visual quality */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white">
+
+    <!-- Header Section -->
+    <header class="bg-brand-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                
+                <!-- Logo & Brand -->
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-accent-gold to-yellow-300 flex items-center justify-center shadow-md text-brand-900 font-extrabold text-2xl border-2 border-white/20">
+                        <i class="fa-solid font-bold fa-user-graduate"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 class="text-xl font-black tracking-tight text-white">English Family</h1>
+                            <span class="bg-accent-teal/20 text-accent-teal text-xs font-bold px-2.5 py-0.5 rounded-full border border-accent-teal/30">B1 Level</span>
+                        </div>
+                        <p class="text-xs text-brand-100">Official Language Proficiency Evaluation</p>
+                    </div>
+                </div>
+
+                <!-- Student Info Inputs (Date & Name) -->
+                <div class="flex flex-wrap items-center gap-3 w-full md:w-auto text-sm">
+                    <div class="bg-brand-800/80 backdrop-blur-sm px-3 py-1.5 rounded-xl border border-white/10 flex items-center gap-2 flex-1 md:flex-initial">
+                        <i class="fa-regular fa-calendar text-brand-100"></i>
+                        <input type="date" id="studentDate" class="bg-transparent text-white focus:outline-none w-full text-xs" text-white>
+                    </div>
+                    <div class="bg-brand-800/80 backdrop-blur-sm px-3 py-1.5 rounded-xl border border-white/10 flex items-center gap-2 flex-1 md:flex-initial">
+                        <i class="fa-regular fa-user text-brand-100"></i>
+                        <input type="text" id="studentName" placeholder="Full Student Name" class="bg-transparent text-white placeholder-brand-100/60 focus:outline-none w-full text-xs font-medium">
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Overall Progress Bar -->
+            <div class="mt-3 pt-2 border-t border-brand-800/50 flex items-center gap-3">
+                <div class="flex-1 bg-brand-800 rounded-full h-2.5 overflow-hidden p-0.5">
+                    <div id="progressBar" class="bg-gradient-to-r from-accent-teal to-accent-gold h-full rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+                </div>
+                <span id="progressText" class="text-xs font-bold text-brand-100 min-w-[50px] text-right">0% Completed</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Stepper Tabs -->
+    <nav class="bg-white border-b border-slate-200 shadow-sm sticky top-[73px] z-40">
+        <div class="max-w-6xl mx-auto px-4 overflow-x-auto">
+            <div class="flex justify-between md:justify-around min-w-[650px] py-2 text-xs font-semibold">
+                <button onclick="navigateToPage(0)" id="tab-0" class="tab-btn flex items-center gap-2 px-3 py-2 rounded-lg text-brand-600 bg-brand-50 font-bold border-b-2 border-brand-600">
+                    <span class="w-5 h-5 rounded-full bg-brand-600 text-white flex items-center justify-center text-[10px]">0</span>
+                    Intro
+                </button>
+                <button onclick="navigateToPage(1)" id="tab-1" class="tab-btn flex items-center gap-2 px-3 py-2 rounded-lg text-slate-500 hover:bg-slate-100">
+                    <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[10px]">1</span>
+                    Reading
+                </button>
+                <button onclick="navigateToPage(2)" id="tab-2" class="tab-btn flex items-center gap-2 px-3 py-2 rounded-lg text-slate-500 hover:bg-slate-100">
+                    <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[10px]">2</span>
+                    Matching
+                </button>
+                <button onclick="navigateToPage(3)" id="tab-3" class="tab-btn flex items-center gap-2 px-3 py-2 rounded-lg text-slate-500 hover:bg-slate-100">
+                    <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[10px]">3</span>
+                    Listening
+                </button>
+                <button onclick="navigateToPage(4)" id="tab-4" class="tab-btn flex items-center gap-2 px-3 py-2 rounded-lg text-slate-500 hover:bg-slate-100">
+                    <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[10px]">4</span>
+                    Reported Speech
+                </button>
+                <button onclick="navigateToPage(5)" id="tab-5" class="tab-btn flex items-center gap-2 px-3 py-2 rounded-lg text-slate-400 cursor-not-allowed opacity-60">
+                    <i class="fa-solid fa-lock text-xs" id="lockIcon"></i>
+                    Results
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="max-w-4xl mx-auto px-4 py-8 flex-1 w-full">
+
+        <!-- ================= PAGE 0: INTRODUCTION ================= -->
+        <section id="page-0" class="page-content bg-white rounded-2xl shadow-xl border border-slate-200/80 p-6 sm:p-8">
+            <div class="text-center max-w-2xl mx-auto">
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-brand-50 rounded-3xl text-brand-600 mb-6 shadow-inner">
+                    <i class="fa-solid fa-book-open-reader text-4xl"></i>
+                </div>
+                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight mb-3">Welcome to English Family Test</h2>
+                <p class="text-slate-600 mb-8 leading-relaxed">
+                    This evaluation measures your English language skills at a B1 intermediate level. Please complete all sections carefully before viewing your final score and exporting your answers.
+                </p>
+            </div>
+
+            <!-- Test Breakdown Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 flex items-start gap-3">
+                    <div class="p-2.5 bg-blue-100 text-brand-600 rounded-lg"><i class="fa-solid fa-file-lines text-lg"></i></div>
+                    <div>
+                        <h4 class="font-bold text-slate-800 text-sm">Part 1: Reading Comprehension</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">Read a short story and answer 5 comprehension questions.</p>
+                    </div>
+                </div>
+                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 flex items-start gap-3">
+                    <div class="p-2.5 bg-amber-100 text-amber-600 rounded-lg"><i class="fa-solid fa-rectangle-ad text-lg"></i></div>
+                    <div>
+                        <h4 class="font-bold text-slate-800 text-sm">Part 2: Advertisement Matcher</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">Match 5 real-world notices/ads with their correct meanings.</p>
+                    </div>
+                </div>
+                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 flex items-start gap-3">
+                    <div class="p-2.5 bg-teal-100 text-teal-600 rounded-lg"><i class="fa-solid fa-headphones text-lg"></i></div>
+                    <div>
+                        <h4 class="font-bold text-slate-800 text-sm">Part 3: Listening Practice</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">Listen to a 1.5-minute monologue and answer 5 questions.</p>
+                    </div>
+                </div>
+                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 flex items-start gap-3">
+                    <div class="p-2.5 bg-purple-100 text-purple-600 rounded-lg"><i class="fa-solid fa-pen-clip text-lg"></i></div>
+                    <div>
+                        <h4 class="font-bold text-slate-800 text-sm">Part 4: Reported Speech</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">25 questions (20 multiple choice + 5 open text responses).</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8 flex items-center gap-3 text-amber-800 text-xs">
+                <i class="fa-solid fa-circle-info text-amber-500 text-base flex-shrink-0"></i>
+                <p>Make sure to write your <strong>Full Name</strong> and verify the <strong>Date</strong> in the header before starting.</p>
+            </div>
+
+            <div class="flex justify-center">
+                <button onclick="navigateToPage(1)" class="bg-brand-600 hover:bg-brand-800 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
+                    Start Test Now <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 1: READING COMPREHENSION ================= -->
+        <section id="page-1" class="page-content hidden-page bg-white rounded-2xl shadow-xl border border-slate-200/80 p-6 sm:p-8">
+            <div class="border-b border-slate-200 pb-4 mb-6 flex justify-between items-center">
+                <div>
+                    <span class="text-xs font-extrabold text-brand-600 uppercase tracking-wider">Part 1 of 4</span>
+                    <h2 class="text-2xl font-bold text-slate-900">Reading Comprehension (B1)</h2>
+                </div>
+                <span class="bg-brand-50 text-brand-700 font-bold text-xs px-3 py-1 rounded-full border border-brand-200">5 Questions</span>
+            </div>
+
+            <!-- Reading Article Container -->
+            <div class="bg-slate-50 rounded-xl p-6 border border-slate-200/80 mb-8 leading-relaxed text-slate-700 text-sm sm:text-base space-y-4 shadow-inner">
+                <h3 class="text-lg font-bold text-slate-900 mb-2 border-b border-slate-200 pb-2"><i class="fa-solid fa-book-open text-brand-600 mr-2"></i> An Unexpected Journey to Eco-Living</h3>
+                <p>
+                    When Sarah moved from her noisy downtown apartment to a small village in Oregon, she expected a peaceful life. What she didn't expect was how radically her lifestyle would change. The village of Oakwood had implemented a community zero-waste policy three years prior, requiring all residents to sort, compost, and recycle virtually everything they consumed.
+                </p>
+                <p>
+                    At first, Sarah found the rules overwhelming. Buying groceries meant bringing her own cloth bags and glass jars for rice, pasta, and oil. However, after two months, these daily routines became second nature. She discovered that cooking fresh, locally grown food from the weekly farmer's market saved her money and dramatically improved her health.
+                </p>
+                <p>
+                    Last month, Sarah organized a community workshop to teach newcomers how to repair broken household items instead of discarding them. Over forty neighbors attended. Sarah realized that living sustainably was not just about reducing trash—it was about building strong connections with the people around her.
+                </p>
+            </div>
+
+            <!-- Questions Form -->
+            <div id="readingQuestions" class="space-y-6">
+                <!-- Q1 -->
+                <div class="p-5 rounded-xl border border-slate-200 hover:border-brand-300 transition-colors bg-white">
+                    <p class="font-semibold text-slate-900 mb-3 text-sm sm:text-base">1. Why did Sarah initially move to Oakwood?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q1" value="A" onchange="checkProgress()"> A) To join a zero-waste project</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q1" value="B" onchange="checkProgress()"> B) In search of a quiet, peaceful environment</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q1" value="C" onchange="checkProgress()"> C) To open a local repair workshop</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q1" value="D" onchange="checkProgress()"> D) To work at the farmer's market</label>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="p-5 rounded-xl border border-slate-200 hover:border-brand-300 transition-colors bg-white">
+                    <p class="font-semibold text-slate-900 mb-3 text-sm sm:text-base">2. How did Sarah feel about Oakwood's rules at the beginning?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q2" value="A" onchange="checkProgress()"> A) Excited and eager to participate</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q2" value="B" onchange="checkProgress()"> B) Indifferent and uninterested</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q2" value="C" onchange="checkProgress()"> C) Stressed and overwhelmed</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q2" value="D" onchange="checkProgress()"> D) Angry at the local council</label>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="p-5 rounded-xl border border-slate-200 hover:border-brand-300 transition-colors bg-white">
+                    <p class="font-semibold text-slate-900 mb-3 text-sm sm:text-base">3. What was one personal benefit Sarah experienced after adapting?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q3" value="A" onchange="checkProgress()"> A) She started her own grocery business</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q3" value="B" onchange="checkProgress()"> B) She saved money and got healthier</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q3" value="C" onchange="checkProgress()"> C) She received an award from the town mayor</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q3" value="D" onchange="checkProgress()"> D) She reduced her working hours</label>
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="p-5 rounded-xl border border-slate-200 hover:border-brand-300 transition-colors bg-white">
+                    <p class="font-semibold text-slate-900 mb-3 text-sm sm:text-base">4. What was the purpose of the workshop Sarah organized?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q4" value="A" onchange="checkProgress()"> A) Teaching people how to fix broken objects</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q4" value="B" onchange="checkProgress()"> B) Showing how to make reusable cloth bags</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q4" value="C" onchange="checkProgress()"> C) Cooking healthy vegetarian recipes</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q4" value="D" onchange="checkProgress()"> D) Selling glass containers to neighbors</label>
+                    </div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="p-5 rounded-xl border border-slate-200 hover:border-brand-300 transition-colors bg-white">
+                    <p class="font-semibold text-slate-900 mb-3 text-sm sm:text-base">5. What main conclusion did Sarah reach about sustainable living?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q5" value="A" onchange="checkProgress()"> A) It is far too expensive for most people</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q5" value="B" onchange="checkProgress()"> B) It only works in small rural villages</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q5" value="C" onchange="checkProgress()"> C) It strengthens social ties within the community</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q5" value="D" onchange="checkProgress()"> D) It requires moving to Oregon</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page Buttons -->
+            <div class="flex justify-between items-center mt-8 pt-4 border-t border-slate-200">
+                <button onclick="navigateToPage(0)" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:bg-slate-100">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Back
+                </button>
+                <button onclick="navigateToPage(2)" class="bg-brand-600 hover:bg-brand-800 text-white font-semibold px-6 py-2.5 rounded-xl text-sm shadow">
+                    Next Section <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 2: ADVERTISEMENT MATCHING ================= -->
+        <section id="page-2" class="page-content hidden-page bg-white rounded-2xl shadow-xl border border-slate-200/80 p-6 sm:p-8">
+            <div class="border-b border-slate-200 pb-4 mb-6 flex justify-between items-center">
+                <div>
+                    <span class="text-xs font-extrabold text-brand-600 uppercase tracking-wider">Part 2 of 4</span>
+                    <h2 class="text-2xl font-bold text-slate-900">Advertisement & Sign Matcher</h2>
+                </div>
+                <span class="bg-brand-50 text-brand-700 font-bold text-xs px-3 py-1 rounded-full border border-brand-200">5 Questions</span>
+            </div>
+
+            <p class="text-slate-600 text-sm mb-6">Read each advertisement/notice carefully and select the statement that best describes its rule or meaning.</p>
+
+            <div class="space-y-6">
+                <!-- Ad 1 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <div class="bg-amber-100/70 border-l-4 border-amber-500 p-4 rounded-r-lg mb-4 text-slate-800 font-medium text-sm">
+                        <p class="font-extrabold uppercase text-amber-900 text-xs mb-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Notice 1: City Library</p>
+                        "Silent Study Room: Please switch all mobile phones to silent mode. No food or warm beverages allowed past this point."
+                    </div>
+                    <p class="font-semibold text-slate-900 mb-3 text-sm">Question 6: What is allowed inside the study room?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q6" value="A" onchange="checkProgress()"> A) Drinking hot coffee while studying</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q6" value="B" onchange="checkProgress()"> B) Cold bottled water without making noise</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q6" value="C" onchange="checkProgress()"> C) Answering urgent phone calls at low volume</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q6" value="D" onchange="checkProgress()"> D) Eating quiet snacks</label>
+                    </div>
+                </div>
+
+                <!-- Ad 2 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <div class="bg-blue-100/70 border-l-4 border-blue-500 p-4 rounded-r-lg mb-4 text-slate-800 font-medium text-sm">
+                        <p class="font-extrabold uppercase text-blue-900 text-xs mb-1"><i class="fa-solid fa-tag mr-1"></i> Notice 2: Tech Express Store</p>
+                        "Buy any laptop before Friday and receive a free wireless mouse + 20% discount on extended warranty packages!"
+                    </div>
+                    <p class="font-semibold text-slate-900 mb-3 text-sm">Question 7: Which offer is valid before Friday?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q7" value="A" onchange="checkProgress()"> A) Free extended warranty with any purchase</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q7" value="B" onchange="checkProgress()"> B) Laptops sold at a 20% discount</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q7" value="C" onchange="checkProgress()"> C) A complimentary wireless mouse with a laptop purchase</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q7" value="D" onchange="checkProgress()"> D) Free mouse repairs for all customers</label>
+                    </div>
+                </div>
+
+                <!-- Ad 3 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <div class="bg-teal-100/70 border-l-4 border-teal-500 p-4 rounded-r-lg mb-4 text-slate-800 font-medium text-sm">
+                        <p class="font-extrabold uppercase text-teal-900 text-xs mb-1"><i class="fa-solid fa-bus mr-1"></i> Notice 3: Metro Bus Station</p>
+                        "Bus Route 42 delayed due to road maintenance on 5th Avenue. Passengers should take Shuttle 42-B from Platform C."
+                    </div>
+                    <p class="font-semibold text-slate-900 mb-3 text-sm">Question 8: What should passengers taking Bus Route 42 do?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q8" value="A" onchange="checkProgress()"> A) Wait at 5th Avenue for maintenance to finish</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q8" value="B" onchange="checkProgress()"> B) Board Shuttle 42-B at Platform C</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q8" value="C" onchange="checkProgress()"> C) Purchase a new bus ticket at Platform B</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q8" value="D" onchange="checkProgress()"> D) Walk down 5th Avenue</label>
+                    </div>
+                </div>
+
+                <!-- Ad 4 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <div class="bg-purple-100/70 border-l-4 border-purple-500 p-4 rounded-r-lg mb-4 text-slate-800 font-medium text-sm">
+                        <p class="font-extrabold uppercase text-purple-900 text-xs mb-1"><i class="fa-solid fa-dumbbell mr-1"></i> Notice 4: Fitness Center</p>
+                        "Locker room cleanup tonight at 10 PM. Unclaimed personal belongings left inside lockers will be removed by staff."
+                    </div>
+                    <p class="font-semibold text-slate-900 mb-3 text-sm">Question 9: What will happen tonight at 10 PM?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q9" value="A" onchange="checkProgress()"> A) The fitness center will close early</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q9" value="B" onchange="checkProgress()"> B) Staff will clean and remove items left in lockers</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q9" value="C" onchange="checkProgress()"> C) Lockers will be available for purchase</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q9" value="D" onchange="checkProgress()"> D) New lockers will be installed</label>
+                    </div>
+                </div>
+
+                <!-- Ad 5 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <div class="bg-rose-100/70 border-l-4 border-rose-500 p-4 rounded-r-lg mb-4 text-slate-800 font-medium text-sm">
+                        <p class="font-extrabold uppercase text-rose-900 text-xs mb-1"><i class="fa-solid fa-utensils mr-1"></i> Notice 5: Bella Italia Restaurant</p>
+                        "Table reservations for groups larger than 6 people require a 24-hour advance deposit. Walk-ins welcome for smaller groups!"
+                    </div>
+                    <p class="font-semibold text-slate-900 mb-3 text-sm">Question 10: Which rule applies to a group of 8 people?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q10" value="A" onchange="checkProgress()"> A) They can walk in anytime without booking</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q10" value="B" onchange="checkProgress()"> B) They must pay a deposit 24 hours in advance</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q10" value="C" onchange="checkProgress()"> C) They are not allowed to dine together</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q10" value="D" onchange="checkProgress()"> D) They get a 24% discount</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center mt-8 pt-4 border-t border-slate-200">
+                <button onclick="navigateToPage(1)" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:bg-slate-100">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Back
+                </button>
+                <button onclick="navigateToPage(3)" class="bg-brand-600 hover:bg-brand-800 text-white font-semibold px-6 py-2.5 rounded-xl text-sm shadow">
+                    Next Section <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 3: LISTENING PRACTICE ================= -->
+        <section id="page-3" class="page-content hidden-page bg-white rounded-2xl shadow-xl border border-slate-200/80 p-6 sm:p-8">
+            <div class="border-b border-slate-200 pb-4 mb-6 flex justify-between items-center">
+                <div>
+                    <span class="text-xs font-extrabold text-brand-600 uppercase tracking-wider">Part 3 of 4</span>
+                    <h2 class="text-2xl font-bold text-slate-900">Listening Practice</h2>
+                </div>
+                <span class="bg-brand-50 text-brand-700 font-bold text-xs px-3 py-1 rounded-full border border-brand-200">5 Questions</span>
+            </div>
+
+            <!-- Custom Synthesized Audio Player Box -->
+            <div class="bg-gradient-to-br from-brand-900 to-slate-900 rounded-2xl p-6 text-white shadow-lg mb-8">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-brand-500/30 flex items-center justify-center text-accent-gold">
+                            <i class="fa-solid fa-volume-high text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm">Natural American Audio Player</h4>
+                            <p class="text-xs text-slate-300">Monologue: "Planning a Career Transition"</p>
+                        </div>
+                    </div>
+                    <span class="text-xs bg-white/10 px-2.5 py-1 rounded-md text-slate-200"><i class="fa-solid fa-clock mr-1"></i> ~1:30 min</span>
+                </div>
+
+                <!-- Player Controls -->
+                <div class="flex flex-col sm:flex-row items-center gap-4 bg-white/5 p-4 rounded-xl border border-white/10">
+                    <div class="flex items-center gap-3">
+                        <button id="playAudioBtn" onclick="toggleAudio()" class="w-12 h-12 rounded-full bg-accent-gold hover:bg-yellow-400 text-brand-900 font-bold flex items-center justify-center shadow-md transition-transform active:scale-95">
+                            <i class="fa-solid fa-play text-lg ml-0.5" id="playIcon"></i>
+                        </button>
+                        <button onclick="stopAudio()" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center">
+                            <i class="fa-solid fa-stop"></i>
+                        </button>
+                    </div>
+
+                    <!-- Progress bar for audio -->
+                    <div class="flex-1 w-full space-y-1">
+                        <div class="w-full bg-white/20 h-2 rounded-full overflow-hidden cursor-pointer" onclick="seekAudio(event)">
+                            <div id="audioProgressBar" class="bg-accent-teal h-full w-0 transition-all duration-300"></div>
+                        </div>
+                        <div class="flex justify-between text-[11px] text-slate-300">
+                            <span id="audioCurrentTime">00:00</span>
+                            <span id="audioTotalTime">01:30</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transcript Toggle Accordion -->
+                <div class="mt-4 text-center">
+                    <button onclick="toggleTranscript()" class="text-xs text-brand-100/80 hover:text-white underline flex items-center justify-center mx-auto gap-1">
+                        <i class="fa-solid fa-file-text"></i> <span id="transcriptToggleText">Show Transcript (Optional)</span>
+                    </button>
+                    <div id="transcriptBox" class="hidden text-left mt-3 p-4 bg-black/40 rounded-xl text-xs leading-relaxed text-slate-200 border border-white/10 max-h-48 overflow-y-auto">
+                        "Hello everyone, my name is David. Today I want to share my recent experience changing careers at thirty-five. For over ten years, I worked as a graphic designer for a marketing firm in Seattle. Although I enjoyed creative work, I felt I needed a new challenge. Six months ago, I decided to enroll in an intensive coding bootcamp. It was tough studying full-time while balancing family responsibilities, but my wife supported me through every step. Last week, I accepted a position as a junior software engineer at a green technology company. My advice to anyone contemplating a major career switch is simple: plan your finances carefully for at least six months, and never be afraid to ask for mentorship from people already in the field."
+                    </div>
+                </div>
+            </div>
+
+            <!-- Listening Questions -->
+            <div class="space-y-6">
+                <!-- Q11 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-3 text-sm">11. What was David's previous profession for over 10 years?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q11" value="A" onchange="checkProgress()"> A) Financial planner</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q11" value="B" onchange="checkProgress()"> B) Graphic designer</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q11" value="C" onchange="checkProgress()"> C) Software engineer</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q11" value="D" onchange="checkProgress()"> D) Marketing manager</label>
+                    </div>
+                </div>
+
+                <!-- Q12 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-3 text-sm">12. Why did David decide to change his career?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q12" value="A" onchange="checkProgress()"> A) He was fired from his job</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q12" value="B" onchange="checkProgress()"> B) He moved to a new city</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q12" value="C" onchange="checkProgress()"> C) He wanted a new professional challenge</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q12" value="D" onchange="checkProgress()"> D) He disliked his former coworkers</label>
+                    </div>
+                </div>
+
+                <!-- Q13 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-3 text-sm">13. What type of company did David recently accept a job with?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q13" value="A" onchange="checkProgress()"> A) A green technology company</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q13" value="B" onchange="checkProgress()"> B) A digital marketing agency</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q13" value="C" onchange="checkProgress()"> C) A financial consulting firm</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q13" value="D" onchange="checkProgress()"> D) An online university</label>
+                    </div>
+                </div>
+
+                <!-- Q14 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-3 text-sm">14. Who helped and supported David during his full-time studies?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q14" value="A" onchange="checkProgress()"> A) His former manager</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q14" value="B" onchange="checkProgress()"> B) His wife</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q14" value="C" onchange="checkProgress()"> C) A career advisor at his firm</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q14" value="D" onchange="checkProgress()"> D) His local college professor</label>
+                    </div>
+                </div>
+
+                <!-- Q15 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-3 text-sm">15. What specific advice does David give regarding finances?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q15" value="A" onchange="checkProgress()"> A) Take out a student loan immediately</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q15" value="B" onchange="checkProgress()"> B) Plan finances carefully for at least six months</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q15" value="C" onchange="checkProgress()"> C) Avoid spending money on training bootcamps</label>
+                        <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q15" value="D" onchange="checkProgress()"> D) Save money for two years before quitting</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center mt-8 pt-4 border-t border-slate-200">
+                <button onclick="navigateToPage(2)" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:bg-slate-100">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Back
+                </button>
+                <button onclick="navigateToPage(4)" class="bg-brand-600 hover:bg-brand-800 text-white font-semibold px-6 py-2.5 rounded-xl text-sm shadow">
+                    Next Section <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 4: REPORTED SPEECH (25 QUESTIONS) ================= -->
+        <section id="page-4" class="page-content hidden-page bg-white rounded-2xl shadow-xl border border-slate-200/80 p-6 sm:p-8">
+            <div class="border-b border-slate-200 pb-4 mb-6 flex justify-between items-center">
+                <div>
+                    <span class="text-xs font-extrabold text-brand-600 uppercase tracking-wider">Part 4 of 4</span>
+                    <h2 class="text-2xl font-bold text-slate-900">Reported Speech Practice</h2>
+                </div>
+                <span class="bg-purple-100 text-purple-700 font-bold text-xs px-3 py-1 rounded-full border border-purple-200">25 Questions</span>
+            </div>
+
+            <p class="text-slate-600 text-sm mb-6">Convert direct speech statements into indirect/reported speech accurately. (Questions 16–35: Multiple Choice | Questions 36–40: Open Fill-in-the-Blank).</p>
+
+            <!-- 20 Multiple Choice Questions -->
+            <div id="reportedSpeechMCQ" class="space-y-6 mb-8">
+                <h3 class="font-bold text-slate-800 text-base border-b border-slate-200 pb-2"><i class="fa-solid fa-list-check text-brand-600 mr-2"></i> Section A: Multiple Choice (Q16 - Q35)</h3>
+
+                <!-- Q16 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">16. Direct: "I am studying for my exams," said Mark.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: Mark said that he _______ for his exams.</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q16" value="A" onchange="checkProgress()"> A) is studying</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q16" value="B" onchange="checkProgress()"> B) was studying</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q16" value="C" onchange="checkProgress()"> C) has studied</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q16" value="D" onchange="checkProgress()"> D) had studied</label>
+                    </div>
+                </div>
+
+                <!-- Q17 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">17. Direct: "We bought a new car yesterday," said Emma.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: Emma told us that they _______ a new car the day before.</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q17" value="A" onchange="checkProgress()"> A) had bought</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q17" value="B" onchange="checkProgress()"> B) buy</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q17" value="C" onchange="checkProgress()"> C) have bought</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q17" value="D" onchange="checkProgress()"> D) would buy</label>
+                    </div>
+                </div>
+
+                <!-- Q18 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">18. Direct: "I will call you tomorrow," promised John.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: John promised that he _______ me the following day.</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q18" value="A" onchange="checkProgress()"> A) will call</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q18" value="B" onchange="checkProgress()"> B) calls</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q18" value="C" onchange="checkProgress()"> C) would call</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q18" value="D" onchange="checkProgress()"> D) called</label>
+                    </div>
+                </div>
+
+                <!-- Q19 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">19. Direct: "Do you like classical music?" asked Sarah.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: Sarah asked me _______ classical music.</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q19" value="A" onchange="checkProgress()"> A) if I liked</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q19" value="B" onchange="checkProgress()"> B) that I like</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q19" value="C" onchange="checkProgress()"> C) do I like</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q19" value="D" onchange="checkProgress()"> D) did I liked</label>
+                    </div>
+                </div>
+
+                <!-- Q20 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">20. Direct: "Where are you going?" asked the officer.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: The officer asked where I _______.</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q20" value="A" onchange="checkProgress()"> A) am going</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q20" value="B" onchange="checkProgress()"> B) was going</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q20" value="C" onchange="checkProgress()"> C) go</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q20" value="D" onchange="checkProgress()"> D) had gone</label>
+                    </div>
+                </div>
+
+                <!-- Q21 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">21. Direct: "Don't touch the glass," warned the security guard.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: The guard warned us _______ the glass.</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q21" value="A" onchange="checkProgress()"> A) to not touch</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q21" value="B" onchange="checkProgress()"> B) not to touch</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q21" value="C" onchange="checkProgress()"> C) don't touch</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q21" value="D" onchange="checkProgress()"> D) no touching</label>
+                    </div>
+                </div>
+
+                <!-- Q22 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">22. Direct: "I have finished my homework," said David.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: David mentioned that he _______ his homework.</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q22" value="A" onchange="checkProgress()"> A) finished</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q22" value="B" onchange="checkProgress()"> B) had finished</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q22" value="C" onchange="checkProgress()"> C) has finished</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q22" value="D" onchange="checkProgress()"> D) finishes</label>
+                    </div>
+                </div>
+
+                <!-- Q23 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">23. Direct: "Can you help me?" asked Mary.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: Mary asked if I _______ her.</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q23" value="A" onchange="checkProgress()"> A) could help</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q23" value="B" onchange="checkProgress()"> B) can help</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q23" value="C" onchange="checkProgress()"> C) help</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q23" value="D" onchange="checkProgress()"> D) would have helped</label>
+                    </div>
+                </div>
+
+                <!-- Q24 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">24. Direct: "I must leave now," stated the doctor.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: The doctor stated that she _______ then.</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q24" value="A" onchange="checkProgress()"> A) must leave</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q24" value="B" onchange="checkProgress()"> B) had to leave</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q24" value="C" onchange="checkProgress()"> C) has to leave</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q24" value="D" onchange="checkProgress()"> D) should leave</label>
+                    </div>
+                </div>
+
+                <!-- Q25 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">25. Direct: "What time does the train arrive?" asked Tom.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: Tom asked what time the train _______.</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q25" value="A" onchange="checkProgress()"> A) arrives</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q25" value="B" onchange="checkProgress()"> B) arrived</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q25" value="C" onchange="checkProgress()"> C) is arriving</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q25" value="D" onchange="checkProgress()"> D) had arrived</label>
+                    </div>
+                </div>
+
+                <!-- Q26 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">26. Direct: "I don't like spicy food," said Lisa.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: Lisa explained that she _______ spicy food.</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q26" value="A" onchange="checkProgress()"> A) doesn't like</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q26" value="B" onchange="checkProgress()"> B) didn't like</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q26" value="C" onchange="checkProgress()"> C) hadn't liked</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q26" value="D" onchange="checkProgress()"> D) isn't liking</label>
+                    </div>
+                </div>
+
+                <!-- Q27 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">27. Direct: "Please sit down," said the teacher.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: The teacher asked the students _______ down.</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q27" value="A" onchange="checkProgress()"> A) sitting</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q27" value="B" onchange="checkProgress()"> B) to sit</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q27" value="C" onchange="checkProgress()"> C) sat</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q27" value="D" onchange="checkProgress()"> D) that they sit</label>
+                    </div>
+                </div>
+
+                <!-- Q28 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">28. Direct: "We may visit Paris next summer," said my parents.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: My parents mentioned that they _______ Paris the following summer.</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q28" value="A" onchange="checkProgress()"> A) might visit</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q28" value="B" onchange="checkProgress()"> B) may visit</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q28" value="C" onchange="checkProgress()"> C) will visit</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q28" value="D" onchange="checkProgress()"> D) visited</label>
+                    </div>
+                </div>
+
+                <!-- Q29 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">29. Direct: "I have been living here for two years," said Paul.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: Paul said that he _______ there for two years.</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q29" value="A" onchange="checkProgress()"> A) had been living</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q29" value="B" onchange="checkProgress()"> B) has been living</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q29" value="C" onchange="checkProgress()"> C) was living</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q29" value="D" onchange="checkProgress()"> D) lived</label>
+                    </div>
+                </div>
+
+                <!-- Q30 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">30. Direct: "Why did you call me so late?" asked Anna.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: Anna asked me why I _______ her so late.</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q30" value="A" onchange="checkProgress()"> A) had called</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q30" value="B" onchange="checkProgress()"> B) called</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q30" value="C" onchange="checkProgress()"> C) have called</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q30" value="D" onchange="checkProgress()"> D) am calling</label>
+                    </div>
+                </div>
+
+                <!-- Q31 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">31. Direct: "I can speak three languages fluently," stated Carlos.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: Carlos stated that he _______ three languages fluently.</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q31" value="A" onchange="checkProgress()"> A) can speak</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q31" value="B" onchange="checkProgress()"> B) could speak</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q31" value="C" onchange="checkProgress()"> C) speaks</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q31" value="D" onchange="checkProgress()"> D) would speak</label>
+                    </div>
+                </div>
+
+                <!-- Q32 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">32. Direct: "Are you taking the train or bus?" asked Ben.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: Ben asked whether I _______ taking the train or bus.</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q32" value="A" onchange="checkProgress()"> A) was</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q32" value="B" onchange="checkProgress()"> B) am</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q32" value="C" onchange="checkProgress()"> C) were</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q32" value="D" onchange="checkProgress()"> D) had been</label>
+                    </div>
+                </div>
+
+                <!-- Q33 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">33. Direct: "We haven't decided yet," admitted the manager.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: The manager admitted that they _______ yet.</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q33" value="A" onchange="checkProgress()"> A) hadn't decided</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q33" value="B" onchange="checkProgress()"> B) haven't decided</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q33" value="C" onchange="checkProgress()"> C) didn't decide</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q33" value="D" onchange="checkProgress()"> D) wouldn't decide</label>
+                    </div>
+                </div>
+
+                <!-- Q34 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">34. Direct: "Clean your room right now," ordered Mom.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: Mom ordered me _______ my room right then.</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q34" value="A" onchange="checkProgress()"> A) to clean</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q34" value="B" onchange="checkProgress()"> B) cleaning</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q34" value="C" onchange="checkProgress()"> C) cleaned</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q34" value="D" onchange="checkProgress()"> D) that I clean</label>
+                    </div>
+                </div>
+
+                <!-- Q35 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">35. Direct: "I will be waiting at the entrance," said Sophie.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: Sophie said that she _______ at the entrance.</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q35" value="A" onchange="checkProgress()"> A) will be waiting</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q35" value="B" onchange="checkProgress()"> B) would be waiting</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q35" value="C" onchange="checkProgress()"> C) is waiting</label>
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-brand-50/50 text-sm"><input type="radio" name="q35" value="D" onchange="checkProgress()"> D) was waiting</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5 Open Answers Questions -->
+            <div id="reportedSpeechOpen" class="space-y-6">
+                <h3 class="font-bold text-slate-800 text-base border-b border-slate-200 pb-2"><i class="fa-solid fa-keyboard text-purple-600 mr-2"></i> Section B: Open-Ended Answers (Q36 - Q40)</h3>
+                <p class="text-xs text-slate-500 mb-4">Type the full correct verb or phrase to complete each reported speech sentence.</p>
+
+                <!-- Q36 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">36. Direct: "I don't know the answer," confessed James.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: James confessed that he <span class="font-bold text-brand-600">[write past auxiliary + verb]</span> the answer.</p>
+                    <input type="text" id="q36" placeholder="e.g. didn't know" oninput="checkProgress()" class="w-full sm:w-80 px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+
+                <!-- Q37 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">37. Direct: "We are leaving tomorrow," said the tourists.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: The tourists said that they <span class="font-bold text-brand-600">[write past continuous form]</span> the next day.</p>
+                    <input type="text" id="q37" placeholder="e.g. were leaving" oninput="checkProgress()" class="w-full sm:w-80 px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+
+                <!-- Q38 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">38. Direct: "Have you seen my keys?" asked Michael.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: Michael asked if I <span class="font-bold text-brand-600">[write past perfect form]</span> his keys.</p>
+                    <input type="text" id="q38" placeholder="e.g. had seen" oninput="checkProgress()" class="w-full sm:w-80 px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+
+                <!-- Q39 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">39. Direct: "Open the window, please," requested the host.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: The host requested me <span class="font-bold text-brand-600">[write infinitive phrase]</span> the window.</p>
+                    <input type="text" id="q39" placeholder="e.g. to open" oninput="checkProgress()" class="w-full sm:w-80 px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+
+                <!-- Q40 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-white">
+                    <p class="font-semibold text-slate-900 mb-1 text-sm">40. Direct: "I will send the email right away," stated Clara.</p>
+                    <p class="text-xs text-slate-500 mb-3">Reported: Clara stated that she <span class="font-bold text-brand-600">[write modal past + verb]</span> the email right away.</p>
+                    <input type="text" id="q40" placeholder="e.g. would send" oninput="checkProgress()" class="w-full sm:w-80 px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center mt-8 pt-4 border-t border-slate-200">
+                <button onclick="navigateToPage(3)" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:bg-slate-100">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Back
+                </button>
+                <button id="finishTestBtn" onclick="submitTest()" class="bg-accent-teal hover:bg-teal-600 text-white font-bold px-8 py-3 rounded-xl text-sm shadow-lg transform transition-all hover:-translate-y-0.5 flex items-center gap-2">
+                    <i class="fa-solid fa-check-double"></i> Complete & Submit Test
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 5: RESULTS & COMPLETION ================= -->
+        <section id="page-5" class="page-content hidden-page bg-white rounded-2xl shadow-xl border border-slate-200/80 p-6 sm:p-8">
+            
+            <!-- Locked State Warning (If incomplete) -->
+            <div id="lockedOverlay" class="text-center py-12">
+                <div class="w-20 h-20 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Section Locked</h3>
+                <p class="text-slate-600 max-w-md mx-auto mb-6 text-sm">Please complete all 40 questions in the previous sections to unlock your final answers and grade score breakdown.</p>
+                <button onclick="navigateToPage(1)" class="bg-brand-600 text-white font-bold px-6 py-2.5 rounded-xl text-sm hover:bg-brand-700">
+                    Return to Test Questions
+                </button>
+            </div>
+
+            <!-- Unlocked Results Container -->
+            <div id="resultsContent" class="hidden">
+                <div class="border-b border-slate-200 pb-4 mb-6 flex flex-wrap justify-between items-center gap-4">
+                    <div>
+                        <span class="text-xs font-extrabold text-accent-teal uppercase tracking-wider"><i class="fa-solid fa-award mr-1"></i> Evaluation Complete</span>
+                        <h2 class="text-3xl font-black text-slate-900">Student Score Card</h2>
+                    </div>
+                    <div class="bg-slate-100 px-4 py-2 rounded-xl text-xs text-slate-600 font-medium border border-slate-200">
+                        Target Instructor: <span class="font-bold text-brand-900">Danielenglishclasses23</span>
+                    </div>
+                </div>
+
+                <!-- Student Summary Banner -->
+                <div class="bg-gradient-to-r from-brand-900 to-brand-700 rounded-2xl p-6 text-white mb-8 shadow-md flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div class="space-y-1 text-center md:text-left">
+                        <p class="text-xs text-brand-100 uppercase tracking-widest font-semibold">Student Record</p>
+                        <h3 class="text-2xl font-extrabold" id="resStudentName">John Doe</h3>
+                        <p class="text-xs text-brand-100" id="resStudentDate">Date: 2026-10-21</p>
+                    </div>
+
+                    <div class="flex items-center gap-6 bg-white/10 px-6 py-4 rounded-xl border border-white/20">
+                        <div class="text-center">
+                            <span class="block text-3xl font-black text-accent-gold" id="resScoreNum">0/40</span>
+                            <span class="text-[10px] text-brand-100 uppercase font-bold">Total Correct</span>
+                        </div>
+                        <div class="w-px h-10 bg-white/20"></div>
+                        <div class="text-center">
+                            <span class="block text-3xl font-black text-accent-teal" id="resScorePct">0%</span>
+                            <span class="text-[10px] text-brand-100 uppercase font-bold">Grade Percentage</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons Row -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                    <button onclick="sendEmailResults()" class="w-full bg-brand-600 hover:bg-brand-800 text-white font-bold py-3 px-6 rounded-xl shadow transition-transform active:scale-98 flex items-center justify-center gap-2 text-sm">
+                        <i class="fa-solid fa-paper-plane"></i> Send Results to Email
+                    </button>
+                    <button onclick="copyAnswersToClipboard()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-6 rounded-xl shadow transition-transform active:scale-98 flex items-center justify-center gap-2 text-sm">
+                        <i class="fa-solid fa-copy"></i> Copy Answers Summary
+                    </button>
+                </div>
+
+                <!-- Detailed Answers Breakdown List -->
+                <h3 class="font-bold text-slate-900 text-lg mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-brand-600"></i> Question-by-Question Breakdown
+                </h3>
+                <div id="answersGrid" class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-8">
+                    <!-- Populated dynamically via JS -->
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 mt-8">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+            <p class="font-semibold text-slate-700">English Family &copy; 2026 - B1 Evaluation System</p>
+            <p>Designed for English Language Students & Assessments</p>
+        </div>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl transition-all duration-300 opacity-0 pointer-events-none flex items-center gap-3 z-50 text-sm">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-lg" id="toastIcon"></i>
+        <span id="toastMsg">Action completed successfully!</span>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Set Default Current Date in Header
+        document.getElementById('studentDate').value = new Date().toISOString().split('T')[0];
+
+        // Answer Key configuration for 40 questions
+        const answerKey = {
+            q1: "B", q2: "C", q3: "B", q4: "A", q5: "C",
+            q6: "B", q7: "C", q8: "B", q9: "B", q10: "B",
+            q11: "B", q12: "C", q13: "A", q14: "B", q15: "B",
+            q16: "B", q17: "A", q18: "C", q19: "A", q20: "B",
+            q21: "B", q22: "B", q23: "A", q24: "B", q25: "B",
+            q26: "B", q27: "B", q28: "A", q29: "A", q30: "A",
+            q31: "B", q32: "A", q33: "A", q34: "A", q35: "B",
+            // Acceptable flexible matching for open answers 36-40
+            q36: ["didn't know", "did not know"],
+            q37: ["were leaving"],
+            q38: ["had seen"],
+            q39: ["to open"],
+            q40: ["would send"]
+        };
+
+        let currentPage = 0;
+        let speechSynthUtterance = null;
+        let audioProgressTimer = null;
+        let isAudioPlaying = false;
+        let audioElapsedTime = 0;
+        const totalAudioDuration = 90; // 1:30 min in seconds
+
+        // Navigation Controller
+        function navigateToPage(pageIndex) {
+            // Check if page 5 is locked
+            if (pageIndex === 5 && !isTestComplete()) {
+                showToast("Please complete all questions before accessing Results!", "fa-triangle-exclamation", "text-amber-400");
+            }
+
+            document.querySelectorAll('.page-content').forEach((pg, idx) => {
+                if (idx === pageIndex) {
+                    pg.classList.remove('hidden-page');
+                } else {
+                    pg.classList.add('hidden-page');
+                }
+            });
+
+            // Update Stepper Tabs Styling
+            document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+                if (idx === pageIndex) {
+                    btn.className = "tab-btn flex items-center gap-2 px-3 py-2 rounded-lg text-brand-600 bg-brand-50 font-bold border-b-2 border-brand-600";
+                } else {
+                    btn.className = "tab-btn flex items-center gap-2 px-3 py-2 rounded-lg text-slate-500 hover:bg-slate-100";
+                }
+            });
+
+            currentPage = pageIndex;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Calculate and Update Progress Bar across all 40 questions
+        function checkProgress() {
+            let answeredCount = 0;
+            
+            // MCQ 1 to 35
+            for (let i = 1; i <= 35; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selected) answeredCount++;
+            }
+
+            // Open 36 to 40
+            for (let i = 36; i <= 40; i++) {
+                const inputVal = document.getElementById(`q${i}`).value.trim();
+                if (inputVal !== "") answeredCount++;
+            }
+
+            const pct = Math.round((answeredCount / 40) * 100);
+            document.getElementById('progressBar').style.width = `${pct}%`;
+            document.getElementById('progressText').innerText = `${pct}% Completed`;
+
+            // Unlock results tab if all 40 completed
+            if (answeredCount === 40) {
+                const lockIcon = document.getElementById('lockIcon');
+                if (lockIcon) lockIcon.className = "fa-solid fa-unlock text-emerald-500 text-xs";
+            }
+
+            return { answeredCount, pct };
+        }
+
+        function isTestComplete() {
+            return checkProgress().answeredCount === 40;
+        }
+
+        // Speech Synthesis Audio Player logic for Natural American Speech
+        const monologueText = "Hello everyone, my name is David. Today I want to share my recent experience changing careers at thirty-five. For over ten years, I worked as a graphic designer for a marketing firm in Seattle. Although I enjoyed creative work, I felt I needed a new challenge. Six months ago, I decided to enroll in an intensive coding bootcamp. It was tough studying full-time while balancing family responsibilities, but my wife supported me through every step. Last week, I accepted a position as a junior software engineer at a green technology company. My advice to anyone contemplating a major career switch is simple: plan your finances carefully for at least six months, and never be afraid to ask for mentorship from people already in the field.";
+
+        function toggleAudio() {
+            if (!('speechSynthesis' in window)) {
+                alert("Speech Synthesis is not supported in your browser.");
+                return;
+            }
+
+            if (isAudioPlaying) {
+                window.speechSynthesis.pause();
+                isAudioPlaying = false;
+                document.getElementById('playIcon').className = "fa-solid fa-play text-lg ml-0.5";
+                clearInterval(audioProgressTimer);
+            } else {
+                if (window.speechSynthesis.paused) {
+                    window.speechSynthesis.resume();
+                } else {
+                    window.speechSynthesis.cancel();
+                    speechSynthUtterance = new SpeechSynthesisUtterance(monologueText);
+                    speechSynthUtterance.rate = 0.92; // Slightly natural pace
+                    speechSynthUtterance.pitch = 1.0;
+
+                    // Search for natural US voices
+                    const voices = window.speechSynthesis.getVoices();
+                    const usVoice = voices.find(v => v.lang.includes('en-US') || v.lang.includes('en_US')) || voices[0];
+                    if (usVoice) speechSynthUtterance.voice = usVoice;
+
+                    speechSynthUtterance.onend = () => {
+                        stopAudio();
+                    };
+
+                    window.speechSynthesis.speak(speechSynthUtterance);
+                }
+
+                isAudioPlaying = true;
+                document.getElementById('playIcon').className = "fa-solid fa-pause text-lg";
+                
+                // Simulated progress bar timer based on ~90 seconds
+                clearInterval(audioProgressTimer);
+                audioProgressTimer = setInterval(() => {
+                    if (audioElapsedTime < totalAudioDuration) {
+                        audioElapsedTime++;
+                        updateAudioUI();
+                    } else {
+                        stopAudio();
+                    }
+                }, 1000);
+            }
+        }
+
+        function stopAudio() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            isAudioPlaying = false;
+            audioElapsedTime = 0;
+            clearInterval(audioProgressTimer);
+            document.getElementById('playIcon').className = "fa-solid fa-play text-lg ml-0.5";
+            updateAudioUI();
+        }
+
+        function updateAudioUI() {
+            const pct = (audioElapsedTime / totalAudioDuration) * 100;
+            document.getElementById('audioProgressBar').style.width = `${pct}%`;
+            
+            const mins = Math.floor(audioElapsedTime / 60);
+            const secs = audioElapsedTime % 60;
+            document.getElementById('audioCurrentTime').innerText = 
+                `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function toggleTranscript() {
+            const box = document.getElementById('transcriptBox');
+            const txt = document.getElementById('transcriptToggleText');
+            if (box.classList.contains('hidden')) {
+                box.classList.remove('hidden');
+                txt.innerText = "Hide Transcript";
+            } else {
+                box.classList.add('hidden');
+                txt.innerText = "Show Transcript (Optional)";
+            }
+        }
+
+        // Test Submission & Grading Handler
+        function submitTest() {
+            const nameInput = document.getElementById('studentName').value.trim();
+            if (!nameInput) {
+                showToast("Please enter the Student's Name in the top header!", "fa-user-pen", "text-amber-400");
+                document.getElementById('studentName').focus();
+                return;
+            }
+
+            // Unlock page 5
+            document.getElementById('lockedOverlay').classList.add('hidden');
+            document.getElementById('resultsContent').classList.remove('hidden');
+
+            // Grade evaluation
+            let score = 0;
+            const answersGrid = document.getElementById('answersGrid');
+            answersGrid.innerHTML = "";
+
+            let summaryList = [];
+
+            // Grade Q1 - Q35
+            for (let i = 1; i <= 35; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                const userVal = selected ? selected.value : "None";
+                const correctVal = answerKey[`q${i}`];
+                const isCorrect = userVal === correctVal;
+
+                if (isCorrect) score++;
+
+                const card = document.createElement('div');
+                card.className = `p-3 rounded-xl border flex items-center justify-between text-xs ${isCorrect ? 'bg-emerald-50/80 border-emerald-200' : 'bg-rose-50/80 border-rose-200'}`;
+                card.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-slate-800">Q${i}:</span>
+                        <span class="text-slate-600">Your Answer: <strong>${userVal}</strong></span>
+                    </div>
+                    <div class="flex items-center gap-2 font-bold">
+                        ${isCorrect ? `<span class="text-emerald-700">Correct ✅</span>` : `<span class="text-rose-700">Key: ${correctVal} ❌</span>`}
+                    </div>
+                `;
+                answersGrid.appendChild(card);
+                summaryList.push(`${i}. ${userVal} ${isCorrect ? '✅' : '❌'}`);
+            }
+
+            // Grade Q36 - Q40
+            for (let i = 36; i <= 40; i++) {
+                const userVal = document.getElementById(`q${i}`).value.trim().toLowerCase();
+                const acceptableList = answerKey[`q${i}`];
+                const isCorrect = acceptableList.some(ans => userVal === ans.toLowerCase());
+
+                if (isCorrect) score++;
+
+                const card = document.createElement('div');
+                card.className = `p-3 rounded-xl border flex items-center justify-between text-xs ${isCorrect ? 'bg-emerald-50/80 border-emerald-200' : 'bg-rose-50/80 border-rose-200'}`;
+                card.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-slate-800">Q${i}:</span>
+                        <span class="text-slate-600">Your Answer: <strong>"${userVal || 'Empty'}"</strong></span>
+                    </div>
+                    <div class="flex items-center gap-2 font-bold">
+                        ${isCorrect ? `<span class="text-emerald-700">Correct ✅</span>` : `<span class="text-rose-700">Key: "${acceptableList[0]}" ❌</span>`}
+                    </div>
+                `;
+                answersGrid.appendChild(card);
+                summaryList.push(`${i}. ${userVal || 'Empty'} ${isCorrect ? '✅' : '❌'}`);
+            }
+
+            // Update UI Scorecard
+            const pctScore = Math.round((score / 40) * 100);
+            document.getElementById('resStudentName').innerText = nameInput;
+            document.getElementById('resStudentDate').innerText = `Date: ${document.getElementById('studentDate').value}`;
+            document.getElementById('resScoreNum').innerText = `${score}/40`;
+            document.getElementById('resScorePct').innerText = `${pctScore}%`;
+
+            // Store summary globally for copying/sending
+            window.latestResultsSummary = {
+                name: nameInput,
+                date: document.getElementById('studentDate').value,
+                score: `${score}/40`,
+                pct: `${pctScore}%`,
+                details: summaryList.join(" | ")
+            };
+
+            navigateToPage(5);
+            showToast("Test successfully submitted and graded!", "fa-circle-check", "text-emerald-400");
+        }
+
+        // Email Export Button
+        function sendEmailResults() {
+            if (!window.latestResultsSummary) return;
+            const res = window.latestResultsSummary;
+            const emailRecipient = "Danielenglishclasses23@gmail.com";
+            const subject = encodeURIComponent(`English Test Results - ${res.name}`);
+            const body = encodeURIComponent(
+                `ENGLISH FAMILY B1 TEST RESULTS\n` +
+                `------------------------------------\n` +
+                `Student Name: ${res.name}\n` +
+                `Date: ${res.date}\n` +
+                `Score: ${res.score} (${res.pct})\n\n` +
+                `Detailed Answers Breakdown:\n${res.details}\n`
+            );
+
+            window.location.href = `mailto:${emailRecipient}?subject=${subject}&body=${body}`;
+        }
+
+        // Clipboard Copy Button
+        function copyAnswersToClipboard() {
+            if (!window.latestResultsSummary) return;
+            const res = window.latestResultsSummary;
+            const copyText = `Student: ${res.name} | Date: ${res.date} | Score: ${res.score} (${res.pct})\nSummary: ${res.details}`;
+
+            // Fallback clipboard technique
+            const tempInput = document.createElement("textarea");
+            tempInput.value = copyText;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            showToast("Answers summary copied to clipboard!", "fa-copy", "text-teal-400");
+        }
+
+        // Toast Helper
+        function showToast(message, iconClass, iconColorClass) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastMsg.innerText = message;
+            toastIcon.className = `fa-solid ${iconClass} ${iconColorClass} text-lg`;
+
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 3500);
+        }
+
+        // Pre-load synth voices
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                window.speechSynthesis.getVoices();
+            };
+        }
+    </script>
+</body>
+</html>
